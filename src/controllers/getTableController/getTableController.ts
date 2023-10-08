@@ -13,7 +13,6 @@ const router = Router();
 interface ApiResponse {
   data: ObjectTables;
   keys: KeysTables;
-  id: string;
 }
 
 router.get(
@@ -27,6 +26,7 @@ router.get(
       table = xlsx.readFile(
         path.join(process.cwd(), 'public', 'data', `${file_name}.xlsx`)
       );
+      console.log(table);
     } catch (error) {
       return res
         .status(404)
@@ -56,7 +56,6 @@ router.get(
     res.json({
       data: objectTables,
       keys: keysInTables,
-      id: crypto.randomUUID(),
     });
   }
 );
