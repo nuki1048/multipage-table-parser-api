@@ -1,23 +1,32 @@
 import { Request, Response, Router } from 'express';
-import xlsx, { CellObject, WorkBook } from 'xlsx';
+import xlsx, { WorkBook } from 'xlsx';
 import {
   KeysTables,
   ObjectTables,
   RouteParams,
-} from './getTableController.interfaces';
+} from './tableController.interfaces';
 import path from 'path';
 import { ApiError } from '../../global/interfaces';
+import { upload } from '../../options/multerOptions';
 
 const router = Router();
 
-interface ApiResponse {
+interface ApiGetResponse {
   data: ObjectTables;
   keys: KeysTables;
 }
 
+interface ApiPostResponse {
+  message: string;
+  fileName: string;
+}
+
 router.get(
   '/:file_name',
-  function (req: Request<RouteParams>, res: Response<ApiResponse | ApiError>) {
+  function (
+    req: Request<RouteParams>,
+    res: Response<ApiGetResponse | ApiError>
+  ) {
     const { file_name } = req.params;
 
     let table: WorkBook;
@@ -57,6 +66,23 @@ router.get(
       data: objectTables,
       keys: keysInTables,
     });
+  }
+);
+
+router.post(
+  '/',
+  upload.single('xlsx_file'),
+  function (req: Request, res: Response<ApiPostResponse | ApiError>) {
+    if (!req.file)
+      return res.status(404).json({ message: 'File not found, try again.' });
+
+    const fileName = req.file.filename;
+
+    res.set('Content-Type', 'application/json');
+
+    return res
+      .status(201)
+      .send({ message: 'File successfully uploaded.', fileName });
   }
 );
 

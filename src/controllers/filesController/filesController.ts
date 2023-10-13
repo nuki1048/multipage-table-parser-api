@@ -1,7 +1,8 @@
 import { Request, Response, Router } from 'express';
 import fs from 'fs';
-import { fileAndSize } from '../../utils/file-utils';
 import path from 'path';
+
+import { fileAndSize } from '../../utils/file-utils';
 import { ApiError, FileWithSize } from '../../global/interfaces';
 
 const router = Router();
@@ -11,7 +12,7 @@ interface ResponseApi {
 }
 
 router.get('/', (req: Request, res: Response<ResponseApi | ApiError>) => {
-  const directoryPath = path.join(path.join(process.cwd(), 'public', 'data'));
+  const directoryPath = path.join(process.cwd(), 'public', 'data');
 
   fs.readdir(directoryPath, 'utf-8', (err, files) => {
     if (err) {
@@ -28,8 +29,6 @@ router.get('/', (req: Request, res: Response<ResponseApi | ApiError>) => {
       filesWithSize.push(fileAndSize(pathToFile, file));
       console.log(fileAndSize(pathToFile, file));
     });
-
-    res.set('Content-Type', 'application/json');
 
     return res.status(200).json({ data: filesWithSize });
   });

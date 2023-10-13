@@ -1,5 +1,5 @@
 import { statSync } from 'fs';
-import { FileWithSize } from '../global/interfaces';
+import { FileWithSize } from '@/global/interfaces';
 
 const MEGABYTES = 1024 * 1024;
 

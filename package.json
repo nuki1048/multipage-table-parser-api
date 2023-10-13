@@ -1,8 +1,11 @@
 {
   "scripts": {
     "build": "npx tsc",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "nodemon src/index.ts"
+  },
+  "_moduleAliases": {
+    "@/*": "dist/src/*"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,7 +21,9 @@
     "@types/node": "^20.6.4",
     "@types/xlsx": "^0.0.36",
     "concurrently": "^8.2.1",
+    "module-alias": "^2.2.3",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   }
 }
