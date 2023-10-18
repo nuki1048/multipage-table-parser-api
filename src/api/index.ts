@@ -1,10 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
+import tableRouter from '@/routes/tableRoute';
+import fileRouter from '@/routes/filesRoute';
+const router = Router();
 
-import getTableController from '../controllers/tableController';
-import filesController from '../controllers/filesController';
-const router = express.Router();
-
-router.use('/table', getTableController);
-router.use('/files', filesController);
+router.use('/table', tableRouter);
+router.use('/files', fileRouter);
 
 export default router;
