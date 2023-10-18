@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import api from './api/';
+import api from './api';
 
 const app: Express = express();
 

@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import xlsx, { WorkBook } from 'xlsx';
+import { NextFunction, Request, Response } from 'express';
+import xlsx from 'xlsx';
+import path from 'path';
+import fs from 'fs';
 import {
   KeysTables,
   ObjectTables,
   RouteParams,
 } from './tableController.interfaces';
-import path from 'path';
 import { ApiError } from '../../global/interfaces';
-import fs from 'fs';
 
 interface ApiGetResponse {
   status: string;
@@ -26,7 +26,7 @@ export const checkTable = (
   req: Request,
   res: Response,
   next: NextFunction,
-  val: string
+  val: string,
 ) => {
   const filePath = path.join(process.cwd(), 'public', 'data', `${val}.xlsx`);
 
@@ -43,28 +43,27 @@ export const checkTable = (
 
 export const getTable = function (
   req: Request<RouteParams>,
-  res: Response<ApiGetResponse | ApiError>
+  res: Response<ApiGetResponse | ApiError>,
 ) {
-  const { file_name } = req.params;
+  const { file_name: fileName } = req.params;
 
-  let table: WorkBook;
-
-  table = xlsx.readFile(
-    path.join(process.cwd(), 'public', 'data', `${file_name}.xlsx`)
+  const table = xlsx.readFile(
+    path.join(process.cwd(), 'public', 'data', `${fileName}.xlsx`),
   );
 
-  let objectTables: ObjectTables = {};
-  let keysInTables: KeysTables = {};
+  const objectTables: ObjectTables = {};
+  const keysInTables: KeysTables = {};
 
   const pageKeys = Object.keys(table.Sheets);
 
-  pageKeys.map((item) => {
+  pageKeys.forEach((item) => {
+    // eslint-disable-next-line no-prototype-builtins
     if (!objectTables.hasOwnProperty(item)) {
       objectTables[item] = [];
     }
 
     const tableJson = xlsx.utils.sheet_to_json(table.Sheets[item]) as Array<{
-      [key: string]: any;
+      [key: string]: never;
     }>;
 
     keysInTables[item] = Object.keys(tableJson?.[0] || {});
@@ -81,7 +80,7 @@ export const getTable = function (
 export const checkFile = (
   req: Request,
   res: Response<ApiPostResponse | ApiError>,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (!req.file) {
     return res.status(404).json({ message: 'File not found, try again.' });
@@ -92,7 +91,7 @@ export const checkFile = (
 
 export const createTable = function (
   req: Request,
-  res: Response<ApiPostResponse | ApiError>
+  res: Response<ApiPostResponse | ApiError>,
 ) {
   return res.status(201).send({
     status: 'success',

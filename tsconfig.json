@@ -11,7 +11,11 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@routes": ["src/routes"],
+      "@options": ["src/options"],
+      "@utils": ["src/utils"],
+      "@global": ["src/global"]
     }
   },
   "include": ["./api/*.ts", "./*.js", "src/**/*.ts"]

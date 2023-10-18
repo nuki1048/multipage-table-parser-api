@@ -1,14 +1,15 @@
 import multer from 'multer';
-import { Callback } from '../global/interfaces';
 import { Request } from 'express';
 import path from 'path';
+import { Callback } from '../global/interfaces';
+
 const MAX_FILE_SIZE = 1 * 1000 * 1000;
 
 export const storage = multer.diskStorage({
   destination: function (
     req: Request,
     file: Express.Multer.File,
-    cb: Callback
+    cb: Callback,
   ) {
     cb(null, path.join(process.cwd(), 'public', 'data'));
   },

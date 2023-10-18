@@ -1,11 +1,10 @@
+import { Router } from 'express';
+import { upload } from '../options/multerOptions';
 import {
-  checkFile,
   checkTable,
   createTable,
   getTable,
-} from '@/controllers/tableController/tableController';
-import { upload } from '@/options/multerOptions';
-import { Router } from 'express';
+} from '../controllers/tableController/tableController';
 
 const router = Router();
 

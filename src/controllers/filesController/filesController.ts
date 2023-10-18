@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,9 +10,10 @@ interface ResponseApi {
   data: FileWithSize[];
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export const getAllFiles = (
   req: Request,
-  res: Response<ResponseApi | ApiError>
+  res: Response<ResponseApi | ApiError>,
 ) => {
   const directoryPath = path.join(process.cwd(), 'public', 'data');
 

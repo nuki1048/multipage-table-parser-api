@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import { getAllFiles } from '@/controllers/filesController/filesController';
 import { Router } from 'express';
 
